@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Usuários</title>
+    <!-- Adicionando Bootstrap via CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Adicionando Font Awesome via CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            flex-shrink: 0;
+            padding: 20px;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            color: #000;
+            padding: 10px 0;
+        }
+        .nav-link i {
+            margin-right: 10px;
+        }
+        .nav-link:hover {
+            background-color: #f8f9fa;
+        }
+        .header {
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+        }
+        .user-info {
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        .logout-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+        .btn-group {
+            display: flex;
+            justify-content: center;
+        }
+        .btn-group a {
+            margin-right: 5px;
+        }
+        .btn-group a:last-child {
+            margin-right: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="user-info">
+            <h3>Bem-vindo, <span th:text="${usuarioLogado != null ? usuarioLogado.nome : 'Usuário'}">Usuário</span>!</h3>
+            <p>Email: <span th:text="${usuarioLogado != null ? usuarioLogado.email : 'email@example.com'}">email@example.com</span></p>
+        </div>
+        <div class="nav flex-column">
+            <a href="/home" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
+            <a href="/todos-usuarios" class="nav-link"><i class="fas fa-users"></i><span>Lista de Usuários</span></a>
+            <a href="/aeronave/novo" class="nav-link"><i class="fas fa-plane"></i><span>Cadastrar Nova Aeronave</span></a>
+            <a href="/calculadora" class="nav-link"><i class="fas fa-calculator"></i><span>Calcular Autonomia</span></a>
+            <a href="/manutencao" class="nav-link"><i class="fas fa-tools"></i><span>Manutenção de Aeronaves</span></a>
+            <a href="/distancia" class="nav-link"><i class="fas fa-route"></i><span>Calcular Distância entre Aeroportos</span></a>
+            <a href="/aeroporto/novo" class="nav-link"><i class="fas fa-map-marker-alt"></i><span>Cadastrar Novo Aeroporto</span></a>
+        </div>
+    </div>
+    <div class="content">
+        <div class="header">
+            <h1>Lista de Usuários</h1>
+        </div>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="usuario : ${usuarios}">
+                    <td th:text="${usuario.id}">1</td>
+                    <td th:text="${usuario.nome}">Nome</td>
+                    <td th:text="${usuario.email}">Email</td>
+                    <td>
+                        <div class="btn-group">
+                            <a th:href="@{/usuarios/editar/{id}(id=${usuario.id})}" class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a th:href="@{/usuarios/deletar/{id}(id=${usuario.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir este usuário?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Adicionando JavaScript do Bootstrap e Font Awesome para ícones -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

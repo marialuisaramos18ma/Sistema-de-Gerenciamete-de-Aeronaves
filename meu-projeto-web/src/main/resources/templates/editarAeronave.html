@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Editar Aeronave</title>
+    <!-- Adicionando Bootstrap via CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="container mt-4">
+    <h1 class="text-center">Editar Aeronave</h1>
+    <form action="#" th:action="@{/aeronaves/editar/{id}(id=${aeronave.id})}" th:object="${aeronave}" method="post" class="form">
+        <div class="form-group">
+            <label for="modelo">Modelo:</label>
+            <input type="text" id="modelo" th:field="*{modelo}" class="form-control" required/>
+        </div>
+        
+        <div class="form-group">
+            <label for="tipoCombustivel">Tipo de Combustível:</label>
+            <select id="tipoCombustivel" th:field="*{tipoCombustivel}" class="form-control">
+                <option value="Gasolina">Gasolina</option>
+                <option value="Querosene">Querosene</option>
+                <option value="Diesel">Diesel</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="tipoMotor">Tipo de Motor:</label>
+            <select id="tipoMotor" th:field="*{tipoMotor}" class="form-control">
+                <option value="Turbina">Turbina</option>
+                <option value="Pistão">Pistão</option>
+                <option value="Turboélice">Turboélice</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="quantidadeMotores">Quantidade de Motores:</label>
+            <select id="quantidadeMotores" th:field="*{quantidadeMotores}" class="form-control">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="capacidadeTanque">Capacidade do Tanque (litros):</label>
+            <input type="number" id="capacidadeTanque" th:field="*{capacidadeTanque}" class="form-control" required/>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Salvar</button>
+    </form>
+
+    <!-- Adicionando JavaScript do Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

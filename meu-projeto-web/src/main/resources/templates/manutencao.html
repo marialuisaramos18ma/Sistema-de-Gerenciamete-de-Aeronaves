@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Formulário de Manutenção</title>
+    <!-- Adicionando Bootstrap via CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Adicionando Font Awesome via CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            flex-shrink: 0;
+            padding: 20px;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            color: #000;
+            padding: 10px 0;
+        }
+        .nav-link i {
+            margin-right: 10px;
+        }
+        .nav-link:hover {
+            background-color: #f8f9fa;
+        }
+        .header {
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+        }
+        .user-info {
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        .logout-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="user-info">
+            <h3>Bem-vindo, <span th:text="${usuarioLogado != null ? usuarioLogado.nome : 'Usuário'}">Usuário</span>!</h3>
+            <p>Email: <span th:text="${usuarioLogado != null ? usuarioLogado.email : 'email@example.com'}">email@example.com</span></p>
+        </div>
+        <div class="nav flex-column">
+            <a href="/home" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
+            <a href="/todos-usuarios" class="nav-link"><i class="fas fa-users"></i><span>Lista de Usuários</span></a>
+            <a href="/aeronave/novo" class="nav-link"><i class="fas fa-plane"></i><span>Cadastrar Nova Aeronave</span></a>
+            <a href="/calculadora" class="nav-link"><i class="fas fa-calculator"></i><span>Calcular Autonomia</span></a>
+            <a href="/manutencao" class="nav-link"><i class="fas fa-tools"></i><span>Manutenção de Aeronaves</span></a>
+            <a href="/distancia" class="nav-link"><i class="fas fa-route"></i><span>Calcular Distância entre Aeroportos</span></a>
+            <a href="/aeroporto/novo" class="nav-link"><i class="fas fa-map-marker-alt"></i><span>Cadastrar Novo Aeroporto</span></a>
+        </div>
+    </div>
+    <div class="content">
+        <div class="header">
+            <h1 class="text-center">Formulário de Manutenção de Aeronave</h1>
+        </div>
+        <form th:action="@{/manutencao/salvar}" th:object="${manutencao}" method="post" class="form">
+            <div class="form-group">
+                <label for="aeronave">Aeronave:</label>
+                <select id="aeronave" th:field="*{aeronave.id}" class="form-control" required>
+                    <option th:each="aeronave : ${aeronaves}" th:value="${aeronave.id}" th:text="${aeronave.modelo}">Aeronave</option>
+                </select>
+            </div>
+
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="blindagemAeronave" th:field="*{blindagemAeronave}">
+                <label class="form-check-label" for="blindagemAeronave">Blindagem da aeronave</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="cabineCentralPiloto" th:field="*{cabineCentralPiloto}">
+                <label class="form-check-label" for="cabineCentralPiloto">Cabine e central do piloto</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="motoresTurbinas" th:field="*{motoresTurbinas}">
+                <label class="form-check-label" for="motoresTurbinas">Motores e turbinas</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="assentosCintosSeguranca" th:field="*{assentosCintosSeguranca}">
+                <label class="form-check-label" for="assentosCintosSeguranca">Assentos e cintos de segurança</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="tremPouso" th:field="*{tremPouso}">
+                <label class="form-check-label" for="tremPouso">Trem de pouso</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">Salvar</button>
+        </form>
+
+        <h2 class="mt-4">Manutenções Registradas</h2>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Nome do Usuário</th>
+                    <th>Aeronave</th>
+                    <th>Data de Atualização</th>
+                    <th>Blindagem da Aeronave</th>
+                    <th>Cabine e Central do Piloto</th>
+                    <th>Motores e Turbinas</th>
+                    <th>Assentos e Cintos de Segurança</th>
+                    <th>Trem de Pouso</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="manutencao : ${manutencoes}">
+                    <td th:text="${manutencao.nomeUsuario}">Nome do Usuário</td>
+                    <td th:text="${manutencao.aeronave.modelo}">Aeronave</td>
+                    <td th:text="${#temporals.format(manutencao.dataAtualizacao, 'dd/MM/yyyy HH:mm')}">Data de Atualização</td>
+                    <td th:text="${manutencao.blindagemAeronave ? '✔' : '✘'}">Blindagem da Aeronave</td>
+                    <td th:text="${manutencao.cabineCentralPiloto ? '✔' : '✘'}">Cabine e Central do Piloto</td>
+                    <td th:text="${manutencao.motoresTurbinas ? '✔' : '✘'}">Motores e Turbinas</td>
+                    <td th:text="${manutencao.assentosCintosSeguranca ? '✔' : '✘'}">Assentos e Cintos de Segurança</td>
+                    <td th:text="${manutencao.tremPouso ? '✔' : '✘'}">Trem de Pouso</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Adicionando JavaScript do Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

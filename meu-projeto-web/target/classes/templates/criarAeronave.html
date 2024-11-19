@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Criar Aeronave</title>
+    <!-- Adicionando Bootstrap via CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Adicionando Font Awesome via CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            flex-shrink: 0;
+            padding: 20px;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            color: #000;
+            padding: 10px 0;
+        }
+        .nav-link i {
+            margin-right: 10px;
+        }
+        .nav-link:hover {
+            background-color: #f8f9fa;
+        }
+        .header {
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+        }
+        .user-info {
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        .logout-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="user-info">
+            <h3>Bem-vindo, <span th:text="${usuarioLogado != null ? usuarioLogado.nome : 'Usuário'}">Usuário</span>!</h3>
+            <p>Email: <span th:text="${usuarioLogado != null ? usuarioLogado.email : 'email@example.com'}">email@example.com</span></p>
+        </div>
+        <div class="nav flex-column">
+            <a href="/home" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
+            <a href="/todos-usuarios" class="nav-link"><i class="fas fa-users"></i><span>Lista de Usuários</span></a>
+            <a href="/aeronave/novo" class="nav-link"><i class="fas fa-plane"></i><span>Cadastrar Nova Aeronave</span></a>
+            <a href="/calculadora" class="nav-link"><i class="fas fa-calculator"></i><span>Calcular Autonomia</span></a>
+            <a href="/manutencao" class="nav-link"><i class="fas fa-tools"></i><span>Manutenção de Aeronaves</span></a>
+            <a href="/distancia" class="nav-link"><i class="fas fa-route"></i><span>Calcular Distância entre Aeroportos</span></a>
+            <a href="/aeroporto/novo" class="nav-link"><i class="fas fa-map-marker-alt"></i><span>Cadastrar Novo Aeroporto</span></a>
+        </div>
+    </div>
+    <div class="content">
+        <div class="header">
+            <h1 class="text-center">Criar Nova Aeronave</h1>
+        </div>
+        <form th:action="@{/aeronaves}" th:object="${aeronave}" method="post" class="form">
+            <div class="form-group">
+                <label for="modelo">Modelo:</label>
+                <input type="text" id="modelo" th:field="*{modelo}" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="tipoCombustivel">Tipo de Combustível:</label>
+                <select id="tipoCombustivel" th:field="*{tipoCombustivel}" class="form-control">
+                    <option value="Gasolina">Gasolina</option>
+                    <option value="Querosene">Querosene</option>
+                    <option value="Diesel">Diesel</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="tipoMotor">Tipo de Motor:</label>
+                <select id="tipoMotor" th:field="*{tipoMotor}" class="form-control">
+                    <option value="Turbina">Turbina</option>
+                    <option value="Pistão">Pistão</option>
+                    <option value="Turboélice">Turboélice</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="quantidadeMotores">Quantidade de Motores:</label>
+                <select id="quantidadeMotores" th:field="*{quantidadeMotores}" class="form-control">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="capacidadeTanque">Capacidade do Tanque (litros):</label>
+                <input type="number" id="capacidadeTanque" th:field="*{capacidadeTanque}" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+    </div>
+
+    <!-- Adicionando JavaScript do Bootstrap e Font Awesome para ícones -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Calcular Distância</title>
+    <!-- Adicionando Bootstrap via CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Adicionando Font Awesome via CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            flex-shrink: 0;
+            padding: 20px;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            color: #000;
+            padding: 10px 0;
+        }
+        .nav-link i {
+            margin-right: 10px;
+        }
+        .nav-link:hover {
+            background-color: #f8f9fa;
+        }
+        .header {
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+        }
+        .user-info {
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        .logout-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="user-info">
+            <h3>Bem-vindo, <span th:text="${usuarioLogado != null ? usuarioLogado.nome : 'Usuário'}">Usuário</span>!</h3>
+            <p>Email: <span th:text="${usuarioLogado != null ? usuarioLogado.email : 'email@example.com'}">email@example.com</span></p>
+        </div>
+        <div class="nav flex-column">
+            <a href="/home" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>
+            <a href="/todos-usuarios" class="nav-link"><i class="fas fa-users"></i><span>Lista de Usuários</span></a>
+            <a href="/aeronave/novo" class="nav-link"><i class="fas fa-plane"></i><span>Cadastrar Nova Aeronave</span></a>
+            <a href="/calculadora" class="nav-link"><i class="fas fa-calculator"></i><span>Calcular Autonomia</span></a>
+            <a href="/manutencao" class="nav-link"><i class="fas fa-tools"></i><span>Manutenção de Aeronaves</span></a>
+            <a href="/distancia" class="nav-link"><i class="fas fa-route"></i><span>Calcular Distância entre Aeroportos</span></a>
+            <a href="/aeroporto/novo" class="nav-link"><i class="fas fa-map-marker-alt"></i><span>Cadastrar Novo Aeroporto</span></a>
+        </div>
+    </div>
+    <div class="content">
+        <div class="header">
+            <h1 class="text-center">Calcular Distância entre Aeroportos</h1>
+        </div>
+        <form th:action="@{/calcularDistancia}" method="post" class="form">
+            <div class="form-group">
+                <label for="origem">Aeroporto de Origem:</label>
+                <select id="origem" name="origemId" class="form-control" required>
+                    <option th:each="aeroporto : ${aeroportos}" th:value="${aeroporto.id}" th:text="${aeroporto.nome}">Aeroporto</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="destino">Aeroporto de Destino:</label>
+                <select id="destino" name="destinoId" class="form-control" required>
+                    <option th:each="aeroporto : ${aeroportos}" th:value="${aeroporto.id}" th:text="${aeroporto.nome}">Aeroporto</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="aeronave">Modelo da Aeronave:</label>
+                <select id="aeronave" name="aeronaveId" class="form-control" required>
+                    <option th:each="aeronave : ${aeronaves}" th:value="${aeronave.id}" th:text="${aeronave.modelo}">Aeronave</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Calcular</button>
+        </form>
+
+        <div th:if="${result}" class="mt-4">
+            <h2 class="text-center">Resultado da Distância entre Aeroportos</h2>
+            <p>Aeroporto de Origem: <span th:text="${origemNome}">Origem</span></p>
+            <p>Aeroporto de Destino: <span th:text="${destinoNome}">Destino</span></p>
+            <p>Modelo da Aeronave: <span th:text="${aeronave.modelo}">Modelo</span></p>
+            <p>Autonomia da Aeronave: <span th:text="${autonomia}">Autonomia</span> km</p>
+            <p>Distância entre os Aeroportos: <span th:text="${distancia}">Distância</span> km</p>
+            <p th:if="${autonomia >= distancia}" class="alert alert-success">O voo é direto, sem escalas.</p>
+            <p th:if="${autonomia < distancia}" class="alert alert-warning">Paradas Necessárias: <span th:text="${paradasNecessarias}">Paradas</span></p>
+        </div>
+    </div>
+
+    <!-- Adicionando JavaScript do Bootstrap e Font Awesome para ícones -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
