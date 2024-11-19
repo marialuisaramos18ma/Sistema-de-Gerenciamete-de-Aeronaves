@@ -77,13 +77,11 @@ CREATE TABLE Manutencao (
 );
 
 4.**Executando o projeto**
- ### Compilar o Projeto:  
+ ### Compilar e Executar o Projeto:  
  ```sh
  mvn clean install
-
- ### Executar a Aplicação  
-  ```sh
  mvn spring-boot:run
+ 
 
 
 
