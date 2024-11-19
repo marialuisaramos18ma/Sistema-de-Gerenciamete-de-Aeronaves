@@ -35,14 +35,6 @@ Este projeto é um sistema de gerenciamento de aeronaves e aeroportos que permit
    git clone https://github.com/seu-usuario/seu-repositorio.git
    cd seu-repositorio
 
- ### Compilar o Projeto:  
- 
- mvn clean install
-
- ### Executar a Aplicação  
-
- mvn spring-boot:run
-
 2. **Configure as Credenciais do Banco de Dados:**
    Atualize o arquivo application.properties com as credenciais do seu banco de dados:
 
@@ -83,6 +75,15 @@ CREATE TABLE Manutencao (
     nomeUsuario VARCHAR(255),
     FOREIGN KEY (aeronave_id) REFERENCES Aeronave(id)
 );
+
+4.**Executando o projeto**
+ ### Compilar o Projeto:  
+ ```sh
+ mvn clean install
+
+ ### Executar a Aplicação  
+  ```sh
+ mvn spring-boot:run
 
 
 
