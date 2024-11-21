@@ -60,8 +60,8 @@
 <body>
     <div class="sidebar">
         <div class="user-info">
-            <h3>Bem-vindo, <span th:text="${usuario.nome}">Usuário</span>!</h3>
-            <p>Email: <span th:text="${usuario.email}">email@example.com</span></p>
+            <h3>Bem-vindo, <span th:text="${usuario?.nome}">Usuário</span>!</h3>
+            <p>Email: <span th:text="${usuario?.email}">email@example.com</span></p>
         </div>
         <div class="nav flex-column">
             <a href="/home" class="nav-link"><i class="fas fa-home"></i><span>Home</span></a>

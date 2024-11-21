@@ -23,7 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/usuarios/novo", "/login", "/").permitAll()
+                .antMatchers("/usuarios/novo", "/login", "/", "/usuarios").permitAll() // Permite criar usuário
                 .antMatchers("/usuarios/**").authenticated()
                 .anyRequest().permitAll()
             .and()
@@ -33,12 +33,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
             .and()
             .logout()
-                .logoutUrl("/logout") // URL de logout
-                .logoutSuccessUrl("/login") // Redirecionar para a página de login após logout
-                .invalidateHttpSession(true) // Invalidar a sessão HTTP
-                .deleteCookies("JSESSIONID") // Excluir cookies da sessão
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
                 .permitAll();
     }
+    
 
     @Autowired
     private UsuarioService usuarioService;
